@@ -23,6 +23,8 @@ How to Activate the virtual Environment :- venv/scripts/activate
 then run this commands:- python -c "import sys; print(sys.executable)"
 
 
+
+python -m pip install pandas jupyter ipykernel pyspark
 ============================================================
 
 
@@ -53,7 +55,9 @@ remove origin already exists -> git remote remove origin
 
 
 
-
+git add . 
+git commit -m "add-day-2"
+git push
 
 
 
