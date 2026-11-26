@@ -39,7 +39,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     """
     print("[TRANSFORM] Cleaning data.....")
 
-    before = df.isnull.sum().sum()
+    before = df.isnull().sum().sum()
 
     # fill missing department/city and name with 'unknown' , numeric gaps with column mean
     for col in ["Department","City","Name"]:
@@ -50,7 +50,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
         if col in df.columns:
             df[col] = df[col].fillna(df[col].mean())
 
-    after = df.isnull.sum().sum()
+    after = df.isnull().sum().sum()
     print(f"[TRANSFORM] missing values fixed : {before} -> {after}")
     return df
 
@@ -85,6 +85,34 @@ def load(df:pd.DataFrame , output_path:str) -> None:
 #===========================================================
 # ANALYSIS /REPORT 
 #===========================================================
+
+def report(df:pd.DataFrame) -> None:
+    print("\n ===== EMPLOYEE ANALYTICS REPORT ====== ")
+    print(f"Total Employees    : {len(df)}")
+    print(f"Highest Salary     : {df['Salary'].max()} ({df.loc[df['Salary'].idxmax(), 'Name']})")
+    print(f"Lowest Salary      : {df['Salary'].min()} ({df.loc[df['Salary'].idxmin(), 'Name']})")
+    print(f"Average Experience : {df['Experience'].mean():.2f} years")
+
+    print("\n Department-wise average salary:")
+    print(df.groupby("Department")["Salary"].mean().round(2))
+
+    print("\n City-wise Employee count:")
+    print(df.groupby("City")["EmployeeID"].count())
+    print("===========================================")
+
+#===========================================================
+# PIPELINE ENTRYPOINT
+#===========================================================
+
+def run_pipeline():
+    df=extract(RAW_FILE)
+    df=transform(df)
+    load(df,OUTPUT_FILE)
+    report(df)
+
+
+run_pipeline()
+
 
 
 

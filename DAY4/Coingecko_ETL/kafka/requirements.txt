@@ -1,0 +1,6 @@
+# kafka Producer dependencies 
+kafka-python==2.0.2
+requests==2.31.0
+
+# pyspark
+pyspark==3.4.0
